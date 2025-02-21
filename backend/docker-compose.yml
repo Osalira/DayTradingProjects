@@ -1,0 +1,167 @@
+# version: '3.8'
+
+# Define all services that make up the SENG 468 day trading system
+services:
+  # API Gateway service - Entry point for all client requests
+  api-gateway:
+    build: 
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:5000"  # Maps container port 5000 to host port 4000
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:5000
+      - TRADING_SERVICE_URL=http://trading-service:8000
+      - MATCHING_ENGINE_URL=http://matching-engine:8080
+      - LOGGING_SERVICE_URL=http://logging-service:5000
+      - FLASK_ENV=production
+      - SECRET_KEY=${API_GATEWAY_SECRET_KEY:-default_secret_key}
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
+      - PYTHONUNBUFFERED=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - auth-service
+      - trading-service
+      - matching-engine
+      - logging-service
+    networks:
+      - trading-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Authentication service - Handles user authentication and authorization
+  auth-service:
+    build: 
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "4001:5000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@db:5432/auth_db
+      - FLASK_ENV=production
+      - SECRET_KEY=${AUTH_SERVICE_SECRET_KEY:-default_secret_key}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-default_secret_key}
+    depends_on:
+      - db
+    networks:
+      - trading-network
+    restart: unless-stopped
+    volumes:
+      - auth-logs:/app/logs
+      - ./auth-service:/app 
+
+  # Trading service - Handles trading operations and business logic
+  trading-service:
+    build: 
+      context: ./trading-service
+      dockerfile: Dockerfile
+    ports:
+      - "4002:8000"
+    environment:
+      - DB_NAME=trading_db
+      - DB_USER=${POSTGRES_USER:-user}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DJANGO_SETTINGS_MODULE=trading_service_project.settings
+      - DJANGO_SECRET_KEY=${TRADING_SERVICE_SECRET_KEY:-default_secret_key}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-default_secret_key}
+      - DJANGO_DEBUG=1
+      - PYTHONUNBUFFERED=1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    depends_on:
+      - db
+    networks:
+      - trading-network
+    restart: unless-stopped
+    volumes:
+      - trading-logs:/app/logs
+      - trading-static:/app/staticfiles
+      - ./trading-service:/app
+
+  # Matching Engine service - Handles order matching logic
+  matching-engine:
+    build: 
+      context: ./matching-engine
+      dockerfile: Dockerfile
+    ports:
+      - "4003:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=${POSTGRES_USER:-user}
+      - DB_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - DB_NAME=matching_db
+    depends_on:
+      - db
+    networks:
+      - trading-network
+    restart: unless-stopped
+    volumes:
+      - matching-logs:/app/logs
+
+  # Logging service - Handles system-wide logging and auditing
+  logging-service:
+    build: 
+      context: ./logging-service
+      dockerfile: Dockerfile
+    ports:
+      - "4004:5000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@db:5432/logging_db
+      - FLASK_ENV=production
+      - SECRET_KEY=${LOGGING_SERVICE_SECRET_KEY:-default_secret_key}
+    depends_on:
+      - db
+    networks:
+      - trading-network
+    restart: unless-stopped
+    volumes:
+      - logging-logs:/app/logs
+
+  # PostgreSQL Database
+  db:
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-user}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
+      - POSTGRES_MULTIPLE_DATABASES=auth_db,trading_db,matching_db,logging_db
+    ports:
+      - "5432:5432"
+    networks:
+      - trading-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Define networks
+networks:
+  trading-network:
+    driver: bridge
+
+# Define volumes
+volumes:
+  postgres_data:
+  auth-logs:
+  trading-logs:
+  trading-static:
+  matching-logs:
+  logging-logs: 

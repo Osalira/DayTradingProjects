@@ -1,0 +1,18 @@
+[submodule "backend/api-gateway"]
+	path = backend/api-gateway
+	url = https://github.com/Osalira/api-gateway.git
+[submodule "backend/auth-service"]
+	path = backend/auth-service
+	url = https://github.com/Osalira/auth-service.git
+[submodule "backend/logging-service"]
+	path = backend/logging-service
+	url = https://github.com/Osalira/logging-service.git
+[submodule "backend/trading-service"]
+	path = backend/trading-service
+	url = https://github.com/Osalira/trading-service.git
+[submodule "backend/matching-engine"]
+	path = backend/matching-engine
+	url = https://github.com/Osalira/matching-engine.git
+[submodule "frontend-monolith"]
+	path = frontend-monolith
+	url = https://github.com/Osalira/frontend-monolith.git
