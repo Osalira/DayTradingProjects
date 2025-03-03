@@ -18,6 +18,18 @@ services:
       - SECRET_KEY=${API_GATEWAY_SECRET_KEY:-default_secret_key}
       - CORS_ORIGINS=http://localhost:3000,http://localhost:5173
       - PYTHONUNBUFFERED=1
+      # Rate limiting
+      - RATE_LIMIT_ENABLED=True
+      - RATE_LIMIT_REQUESTS=100
+      - RATE_LIMIT_WINDOW=60
+
+        # Circuit breaker
+      - CIRCUIT_BREAKER_ENABLED=True
+      - CIRCUIT_BREAKER_THRESHOLD=5
+      - CIRCUIT_BREAKER_TIMEOUT=60
+
+        # Logging
+      - LOG_LEVEL=DEBUG
     logging:
       driver: "json-file"
       options:
@@ -104,6 +116,9 @@ services:
       - DB_USER=${POSTGRES_USER:-user}
       - DB_PASSWORD=${POSTGRES_PASSWORD:-password}
       - DB_NAME=matching_db
+      - SERVICE_AUTH_TOKEN=${SERVICE_AUTH_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMzOTQxMjMsInN1YiI6eyJpZCI6OTk5LCJ1c2VybmFtZSI6InN5c3RlbSIsImFjY291bnRfdHlwZSI6InN5c3RlbSJ9LCJpYXQiOjE3NDA4MDU3MjN9.y5_3YSiw6zVpygAu0rv2h5SihFcPewITmMsRG9Os_dU}
+      - TRADING_SERVICE_URL=http://api-gateway:5000/transaction/processTransaction
+      - PORT=8080
     depends_on:
       - db
     networks:

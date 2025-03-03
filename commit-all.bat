@@ -33,7 +33,7 @@ if %COUNTER% GTR 20 (
 )
 
 :: Construct commit message
-set "COMMIT_MSG=%COUNTER%%SUFFIX% commit"
+set "COMMIT_MSG=%COUNTER%%SUFFIX% frontend fixes"
 
 :: Define array of directories to process
 set "DIRS[0]=frontend-monolith"
@@ -63,6 +63,9 @@ for /L %%i in (0,1,5) do (
             
             echo   Committing changes...
             git commit -m "%COMMIT_MSG%"
+            
+            echo   Pushing changes to remote...
+            git push
             
             echo   Done with !DIR!
         ) else (

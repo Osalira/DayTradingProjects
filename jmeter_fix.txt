@@ -1,0 +1,25 @@
+JMeter Token Extraction Fix
+
+The current issue with the JMeter test is that it's looking for the auth token in the wrong location in the JSON response.
+
+Current JMeter Extractor:
+- JSON Path: $.data.token
+
+What Our API Actually Returns:
+- JSON Path: $.token
+
+To fix this:
+
+1. Open Sample_test_script2.jmx in JMeter
+2. Find the JSONPostProcessor named "Comp Token Extractor"
+3. Change the jsonPathExprs from $.data.token to $.token
+4. Do the same for any other token extractors in the script
+
+For all other endpoints that require authentication:
+1. Make sure they have a HTTP Header Manager
+2. Each header manager should include an Authorization header
+3. The value should be: Bearer ${compToken}  (or whatever variable name holds your token)
+
+Additional Notes:
+- Our auth endpoints now support both "username" and "user_name" formats
+- The successful registration and login should now work, but subsequent requests need the token properly passed 

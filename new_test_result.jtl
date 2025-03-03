@@ -1,0 +1,30 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1740642749521,160,1 Register Request,201,CREATED,User 1 Thread 1-1,text,true,,332,267,1,1,http://localhost:4000/authentication/register,157,0,19
+1740642750203,104,2 Failed Register Request,400,BAD REQUEST,User 1 Thread 1-1,text,false,,228,266,1,1,http://localhost:4000/authentication/register,104,0,0
+1740642750812,87,3 Failed Login Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,true,,234,240,1,1,http://localhost:4000/authentication/login,87,0,0
+1740642751401,101,4 Login Request,200,OK,User 1 Thread 1-1,text,true,,937,239,1,1,http://localhost:4000/authentication/login,101,0,0
+1740642752005,6,5 Create Google Stock Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,719,1,1,http://localhost:4000/setup/createStock,6,0,0
+1740642752513,6,6 Add Google Stock Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,731,1,1,http://localhost:4000/setup/addStockToUser,6,0,0
+1740642753022,7,7 Create Apple Stock Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,718,1,1,http://localhost:4000/setup/createStock,7,0,0
+1740642753531,6,8 Add Apple Stock Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,731,1,1,http://localhost:4000/setup/addStockToUser,6,0,0
+1740642754041,5,9 Get Stock Portfolio Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,687,1,1,http://localhost:4000/transaction/getStockPortfolio,5,0,0
+1740642754551,3,10 Place Stock Order Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,784,1,1,http://localhost:4000/engine/placeStockOrder,3,0,0
+1740642755056,3,11 Place Stock Order Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,784,1,1,http://localhost:4000/engine/placeStockOrder,3,0,0
+1740642755560,7,12 Get Stock Portfolio Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,687,1,1,http://localhost:4000/transaction/getStockPortfolio,7,0,0
+1740642756070,6,13 Get Stock Transactions Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,690,1,1,http://localhost:4000/transaction/getStockTransactions,6,0,0
+1740642756096,2,Debug Sampler,200,OK,User 1 Thread 1-1,text,true,,1578,0,1,1,null,0,0,0
+1740642756599,89,14 Register Request,201,CREATED,User 1 Thread 1-1,text,true,,332,271,1,1,http://localhost:4000/authentication/register,89,0,0
+1740642757189,95,15 Login Request,200,OK,User 1 Thread 1-1,text,true,,942,241,1,1,http://localhost:4000/authentication/login,95,0,0
+1740642757786,33,16 Get Stock Prices Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,687,1,1,http://localhost:4000/transaction/getStockPrices,33,0,0
+1740642758320,7,17 Add Money Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,726,1,1,http://localhost:4000/transaction/addMoneyToWallet,7,0,0
+1740642758830,7,18 Get Wallet Balance Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,689,1,1,http://localhost:4000/transaction/getWalletBalance,7,0,0
+1740642759341,4,19 Place Stock Order Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,772,1,1,http://localhost:4000/engine/placeStockOrder,4,0,0
+1740642759847,6,20 Get Stock Transactions Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,693,1,1,http://localhost:4000/transaction/getStockTransactions,5,0,0
+1740642760355,7,21 Get Wallet Transactions Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,694,1,1,http://localhost:4000/transaction/getWalletTransactions,7,0,0
+1740642760866,2,22 Get Wallet Balance Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,689,1,1,http://localhost:4000/transaction/getWalletBalance,2,0,0
+1740642761371,5,23 Get Stock Portfolio Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,690,1,1,http://localhost:4000/transaction/getStockPortfolio,5,0,0
+1740642761377,1,Debug Sampler,200,OK,User 1 Thread 1-1,text,true,,2198,0,1,1,null,0,0,0
+1740642761881,2,24 Cancel Stock Order Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,726,1,1,http://localhost:4000/engine/cancelStockTransaction,2,0,0
+1740642762385,3,25 Get Stock Transactions Request,401,UNAUTHORIZED,User 1 Thread 1-1,text,false,No results for path: $['success'],184,690,1,1,http://localhost:4000/transaction/getStockTransactions,3,0,0
+1740642762889,2,26 Invalid Token,401,UNAUTHORIZED,User 1 Thread 1-1,text,true,,184,222,1,1,http://localhost:4000/transaction/getStockPortfolio,2,0,0
+1740642763393,3,27 Invalid Payload Example,401,UNAUTHORIZED,User 1 Thread 1-1,text,true,No results for path: $['success'],184,727,1,1,http://localhost:4000/transaction/addMoneyToWallet,3,0,0
