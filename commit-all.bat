@@ -33,7 +33,7 @@ if %COUNTER% GTR 20 (
 )
 
 :: Construct commit message
-set "COMMIT_MSG=%COUNTER%%SUFFIX% update command scripts and docker files"
+set "COMMIT_MSG=%COUNTER%%SUFFIX% vm permissions .sh fixes"
 
 :: Define array of directories to process
 set "DIRS[0]=frontend-monolith"

@@ -46,6 +46,22 @@ The system consists of the following components:
    chmod +x *.sh
    ```
 
+4. **Fix Docker entrypoint permissions** (Linux/macOS only):
+   ```bash
+   # This step is crucial for Linux/macOS users to avoid "permission denied" errors
+   cd backend
+   find . -name "*.sh" -exec chmod +x {} \;
+   cd ..
+   ```
+
+   > **IMPORTANT**: If you encounter a "permission denied" error when starting Docker containers, use the `fix-permissions.sh` script to quickly resolve the issue:
+   > ```bash
+   > # Only needed if you encounter "permission denied" errors
+   > ./fix-permissions.sh
+   > docker compose down
+   > docker compose up -d
+   > ```
+
 ### Development
 
 #### Windows
