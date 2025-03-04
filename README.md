@@ -222,6 +222,72 @@ All backend services run in Docker containers. To manage them:
 - **Database issues**: You may need to initialize the database with `docker-compose down -v` and restart to reset volumes
 - **Port conflicts**: Ensure ports 4000-4004 and 5432 are available
 
+## Handling Permissions Issues
+
+When working with this project across different operating systems (Windows, macOS, Linux), you may encounter permission issues with shell scripts, particularly when using Docker containers. This section explains how to identify and fix these issues.
+
+### Common Permission Issues
+
+1. **"Permission denied" errors when Docker tries to execute scripts**:
+   ```
+   Error: failed to create task for container: failed to create shim task: OCI runtime create failed: 
+   runc create failed: unable to start container process: exec: "/app/docker-entrypoint.sh": permission denied
+   ```
+
+2. **Line ending issues**: Scripts with Windows-style line endings (CRLF) may fail in Linux containers.
+
+### Using the Fix-Permissions Script
+
+This project includes a comprehensive script for fixing permissions:
+
+```bash
+# Run this from the project root directory:
+./fix-permissions.sh
+
+# Then restart the containers:
+cd backend
+docker compose down
+docker compose up -d
+```
+
+The script automatically:
+- Sets executable permissions on all shell scripts
+- Converts Windows (CRLF) line endings to Unix (LF) format 
+- Fixes common Docker entrypoint scripts
+- Checks Dockerfiles for proper permission handling
+
+### Inside Container Fixes
+
+If you need to fix permissions inside a running container:
+
+```bash
+# Copy the fix script into the container
+docker cp docker-fix-permissions.sh container_name:/app/
+
+# Execute the script in the container
+docker exec -it container_name bash -c "chmod +x /app/docker-fix-permissions.sh && /app/docker-fix-permissions.sh"
+```
+
+### Preventing Future Issues
+
+To prevent these issues in future development:
+
+1. **Configure Git to handle line endings**:
+   ```bash
+   # For Unix/macOS users:
+   git config --global core.autocrlf input
+   
+   # For Windows users:
+   git config --global core.autocrlf true
+   ```
+
+2. **Use the `.gitattributes` file**: This project includes a `.gitattributes` file that enforces proper line endings for script files.
+
+3. **Docker Best Practices**:
+   - Always include `chmod +x` and `dos2unix` commands in Dockerfiles
+   - Use the Alpine `dos2unix` package or `sed` commands to fix line endings
+   - Test your Docker containers on different operating systems when possible
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
