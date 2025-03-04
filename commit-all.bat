@@ -33,7 +33,7 @@ if %COUNTER% GTR 20 (
 )
 
 :: Construct commit message
-set "COMMIT_MSG=%COUNTER%%SUFFIX% frontend fixes"
+set "COMMIT_MSG=%COUNTER%%SUFFIX% update command scripts and docker files"
 
 :: Define array of directories to process
 set "DIRS[0]=frontend-monolith"

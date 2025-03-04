@@ -29,7 +29,7 @@ The system consists of the following components:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/DayTradingProjects.git
+   git clone --recurse-submodules https://github.com/Osalira/DayTradingProjects.git
    cd DayTradingProjects
    ```
 
@@ -41,7 +41,14 @@ The system consists of the following components:
    cd ..
    ```
 
+3. **Make the shell scripts executable** (Linux/macOS only):
+   ```bash
+   chmod +x *.sh
+   ```
+
 ### Development
+
+#### Windows
 
 1. **Start the development environment** (all services):
    ```
@@ -57,26 +64,72 @@ The system consists of the following components:
    stop-dev.bat
    ```
 
+#### Linux/macOS
+
+1. **Start the development environment** (all services):
+   ```
+   ./start-dev.sh
+   ```
+
+   This will:
+   - Start all backend services using Docker Compose
+   - Start the frontend development server
+
+2. **Stop the development environment**:
+   ```
+   ./stop-dev.sh
+   ```
+
 ### Testing
+
+#### Windows
 
 Run the JMeter tests using:
 ```
 run-tests.bat
 ```
 
-This will:
+#### Linux/macOS
+
+Run the JMeter tests using:
+```
+./run-tests.sh
+```
+
+Both scripts will:
 - Verify if JMeter is installed
 - Check if Docker is running
 - Start the services if not already running
 - Run the JMeter test script
 - Display a summary of the test results
 
+### Automated Git Commits
+
+#### Windows
+
+Commit changes across all repositories:
+```
+commit-all.bat
+```
+
+#### Linux/macOS
+
+Commit changes across all repositories:
+```
+./commit-all.sh
+```
+
+These scripts will:
+- Increment a counter to track commit numbers
+- Create a descriptive commit message
+- Commit and push changes in all service directories
+
 ## Development Workflow
 
 This project follows a Test-Driven Development (TDD) approach:
 
 1. **Read the test**: Understand what the test in `Sample_test_script2.jmx` is checking.
-2. **Run the test**: Execute `run-tests.bat` to see what's failing.
+2. **Run the test**: Execute the appropriate test script for your OS to see what's failing.
 3. **Fix the issues**: Implement or modify code to make the test pass.
 4. **Rerun the test**: Verify that your changes fixed the issue.
 5. **Repeat**: Continue until all tests pass.
@@ -94,9 +147,18 @@ This project follows a Test-Driven Development (TDD) approach:
 │    ├── api-gateway/          # API Gateway
 │    └── docker-compose.yml    # Docker configuration
 ├── Sample_test_script2.jmx    # JMeter test script
-├── run-tests.bat              # Test runner script
-├── start-dev.bat              # Development starter
-└── stop-dev.bat               # Development stopper
+│
+│   # Windows scripts
+├── run-tests.bat              # Test runner script (Windows)
+├── start-dev.bat              # Development starter (Windows)
+├── stop-dev.bat               # Development stopper (Windows)
+├── commit-all.bat             # Commit changes (Windows)
+│
+│   # Linux/macOS scripts
+├── run-tests.sh               # Test runner script (Linux/macOS)
+├── start-dev.sh               # Development starter (Linux/macOS)
+├── stop-dev.sh                # Development stopper (Linux/macOS)
+└── commit-all.sh              # Commit changes (Linux/macOS)
 ```
 
 ## API Endpoints
@@ -125,10 +187,18 @@ This project follows a Test-Driven Development (TDD) approach:
 
 All backend services run in Docker containers. To manage them:
 
-- **Start services**: `cd backend && docker-compose up -d`
-- **Stop services**: `cd backend && docker-compose down`
-- **View logs**: `cd backend && docker-compose logs -f [service-name]`
-- **Rebuild service**: `cd backend && docker-compose build [service-name]`
+- **Start services**:
+  - Windows: `cd backend && docker-compose up -d`
+  - Linux/macOS: `cd backend && docker-compose up -d`
+- **Stop services**:
+  - Windows: `cd backend && docker-compose down`
+  - Linux/macOS: `cd backend && docker-compose down`
+- **View logs**:
+  - Windows: `cd backend && docker-compose logs -f [service-name]`
+  - Linux/macOS: `cd backend && docker-compose logs -f [service-name]`
+- **Rebuild service**:
+  - Windows: `cd backend && docker-compose build [service-name]`
+  - Linux/macOS: `cd backend && docker-compose build [service-name]`
 
 ## Troubleshooting
 

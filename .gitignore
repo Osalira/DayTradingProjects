@@ -33,3 +33,41 @@ venv/
 
 # Miscellaneous
 coverage/
+
+jmeter/
+
+# Docker
+Sample_Test_scripts2.jmx
+place_order.py
+
+place_sell_order.py
+cancel_stock_transaction.py
+test_api.py
+test_token_header.py
+test_token_payload.py
+test_token_auth.py
+test_api_gateway_debug.py
+test_trading_debug.py
+test_both_auth_formats.py
+verify_token_fix.py
+
+
+fix_jmeter_assertions.py
+fix_jmeter_auth.py
+fix_jmeter.py
+fix_selective_assertions.py
+
+test_create_stock.py
+test_matching_engine.py
+test_notification.py
+test_price_update.py
+test_sell_order_price_update.py
+check_stock_prices.py
+*jmx
+*.jtl
+
+*.csv
+
+TestRun3/
+ScriptsTest/
+backend/testSripts

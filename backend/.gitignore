@@ -57,3 +57,5 @@ log/
 # Database
 *.sqlite3
 *.db 
+
+testSripts/
