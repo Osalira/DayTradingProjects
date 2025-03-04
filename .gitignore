@@ -71,3 +71,6 @@ check_stock_prices.py
 TestRun3/
 ScriptsTest/
 backend/testSripts
+
+cleanup-scripts.bat
+cleanup-scripts.sh

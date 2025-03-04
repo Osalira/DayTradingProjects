@@ -160,12 +160,15 @@ services:
       - POSTGRES_USER=${POSTGRES_USER:-user}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-password}
       - POSTGRES_MULTIPLE_DATABASES=auth_db,trading_db,matching_db,logging_db
+      # This sets the authentication method for PostgreSQL
+      - POSTGRES_INITDB_ARGS=--auth=md5
     ports:
       - "5432:5432"
     networks:
       - trading-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Mount the initialization script
       - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
     restart: unless-stopped
     healthcheck:

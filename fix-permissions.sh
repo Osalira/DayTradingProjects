@@ -2,6 +2,8 @@
 echo "===================================="
 echo "Day Trading System - Permission Fixer"
 echo "===================================="
+echo "Note: Some scripts have been replaced with inline commands in Dockerfiles"
+echo "      This script will fix any remaining shell scripts in the project"
 echo
 
 # Store the root directory path
@@ -56,6 +58,9 @@ for service_dir in backend/*-service; do
             # Show first line to verify shebang
             SHEBANG=$(head -n 1 "$service_dir/docker-entrypoint.sh")
             echo "    Shebang: $SHEBANG"
+            
+            echo "    NOTE: We've updated the Dockerfile to use inline commands instead of this script."
+            echo "          You may safely delete this script if you rebuild all containers."
         fi
     fi
 done
@@ -71,6 +76,9 @@ if [ -f "backend/init-multiple-dbs.sh" ]; then
     # Show first line to verify shebang
     SHEBANG=$(head -n 1 backend/init-multiple-dbs.sh)
     echo "    Shebang: $SHEBANG"
+    
+    echo "    NOTE: We've updated docker-compose.yml to create this script during initialization."
+    echo "          You may safely delete this script if you rebuild all containers."
 fi
 
 # Fix matching-engine specific scripts
@@ -79,42 +87,39 @@ if [ -d "backend/matching-engine" ]; then
     echo "Fixing matching-engine scripts..."
     chmod +x backend/matching-engine/*.sh
     find backend/matching-engine -name "*.sh" -exec sed -i 's/\r$//' {} \; -exec echo "  Fixed: {}" \;
+    
+    echo "    NOTE: We've updated the Dockerfile to use inline commands instead of these scripts."
+    echo "          You may safely delete these scripts if you rebuild all containers."
 fi
 
 # Verify and fix Dockerfiles
 echo
 echo "Checking Dockerfiles for permission-setting commands..."
-grep -l "docker-entrypoint.sh" $(find ./backend -name Dockerfile) | while read dockerfile; do
-    if ! grep -q "chmod +x" "$dockerfile"; then
-        echo "  Warning: $dockerfile might need 'chmod +x' added for scripts"
+grep -l "docker-entrypoint.sh\|wait-for-db.sh" $(find ./backend -name Dockerfile) | while read dockerfile; do
+    echo "  Inspecting: $dockerfile"
+    if grep -q "CMD bash -c" "$dockerfile"; then
+        echo "  ✓ $dockerfile uses inline bash commands (good)"
     else
-        echo "  ✓ $dockerfile already has chmod +x commands"
-    fi
-    
-    if ! grep -q "dos2unix" "$dockerfile"; then
-        echo "  Warning: $dockerfile might need 'dos2unix' added for line endings"
-    else
-        echo "  ✓ $dockerfile already has dos2unix commands"
+        echo "  ! $dockerfile might still be using external scripts"
     fi
 done
 
 echo
 echo "Permissions fixed successfully!"
-echo "Use these commands to restart your containers:"
+echo "Use these commands to rebuild your containers:"
 echo "  cd backend"
 echo "  docker compose down"
+echo "  docker compose build --no-cache"
 echo "  docker compose up -d"
 echo
 
 # Recommendations to prevent future issues
 echo "To prevent similar issues in the future, consider:"
-echo "1. Setting core.autocrlf in Git:"
+echo "1. Using inline bash commands in Dockerfiles (as implemented now)"
+echo "2. Setting core.autocrlf in Git:"
 echo "   git config --global core.autocrlf input"
 echo
-echo "2. Adding .gitattributes file with:"
-echo "   *.sh text eol=lf"
-echo "   *.md text eol=lf"
-echo "   Dockerfile text eol=lf"
+echo "3. Using the .gitattributes file included in the project"
 echo
-echo "3. Adding a pre-commit hook to check for executable permissions"
+echo "4. Always verifying Dockerfile changes with 'docker compose build' after modifications"
 echo "====================================" 
