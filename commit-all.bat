@@ -33,7 +33,7 @@ if %COUNTER% GTR 20 (
 )
 
 :: Construct commit message
-set "COMMIT_MSG=%COUNTER%%SUFFIX% vm permissions .sh fixes"
+set "COMMIT_MSG=%COUNTER%%SUFFIX% big integer restrictions fix"
 
 :: Define array of directories to process
 set "DIRS[0]=frontend-monolith"
