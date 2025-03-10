@@ -18,7 +18,7 @@ __pycache__/
 venv/
 .env
 *.log
-
+generate_non_expiring_token.py
 # Go
 /bin/
 /pkg/

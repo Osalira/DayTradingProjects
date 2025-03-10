@@ -103,7 +103,7 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-user}:${POSTGRES_PASSWORD:-password}@auth_db:5432/auth_db
       - FLASK_ENV=production
       - SECRET_KEY=${AUTH_SERVICE_SECRET_KEY:-default_secret_key}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-default_secret_key}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-daytrading_jwt_secret_key_2024}
       # RabbitMQ settings
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
@@ -193,8 +193,9 @@ services:
       - DB_PORT=5432
       - DJANGO_SETTINGS_MODULE=trading_service_project.settings
       - DJANGO_SECRET_KEY=${TRADING_SERVICE_SECRET_KEY:-default_secret_key}
-      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-default_secret_key}
-      - DJANGO_DEBUG=1
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-daytrading_jwt_secret_key_2024}
+      - DJANGO_DEBUG=True
+      - DJANGO_ALLOWED_HOSTS=trading-service,localhost,127.0.0.1
       - PYTHONUNBUFFERED=1
       # RabbitMQ settings
       - RABBITMQ_HOST=rabbitmq
@@ -243,8 +244,9 @@ services:
       - DB_USER=${POSTGRES_USER:-user}
       - DB_PASSWORD=${POSTGRES_PASSWORD:-password}
       - DB_NAME=matching_db
-      - SERVICE_AUTH_TOKEN=${SERVICE_AUTH_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDMzOTQxMjMsInN1YiI6eyJpZCI6OTk5LCJ1c2VybmFtZSI6InN5c3RlbSIsImFjY291bnRfdHlwZSI6InN5c3RlbSJ9LCJpYXQiOjE3NDA4MDU3MjN9.y5_3YSiw6zVpygAu0rv2h5SihFcPewITmMsRG9Os_dU}
       - TRADING_SERVICE_URL=http://api-gateway:5000/transaction/processTransaction
+      - SERVICE_AUTH_TOKEN=${SERVICE_AUTH_TOKEN:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDE1OTYxNjQsInN1YiI6eyJpZCI6OTk5LCJ1c2VybmFtZSI6InN5c3RlbSIsImFjY291bnRfdHlwZSI6InN5c3RlbSJ9fQ.lUfb-sWxDiV0VpXI31sdcLrt1sZxZ5AiRLakHOop5fw}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-daytrading_jwt_secret_key_2024}
       - PORT=8080
       # RabbitMQ settings
       - RABBITMQ_HOST=rabbitmq
