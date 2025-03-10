@@ -37,7 +37,6 @@ coverage/
 jmeter/
 
 # Docker
-Sample_Test_scripts2.jmx
 place_order.py
 
 place_sell_order.py
@@ -63,7 +62,6 @@ test_notification.py
 test_price_update.py
 test_sell_order_price_update.py
 check_stock_prices.py
-*jmx
 *.jtl
 
 *.csv
